@@ -8,9 +8,10 @@ class DataModelM (users: List[User], processess: List[String], provider: List[St
 
     def getUsersTable(): List[User] = ???
 
-    def getUserLock(userId: String) = {
+    def getUserLock(userId: String): Future[User] = {
         // lock user with id user id
         Console.println(s"locking -> $userId")
+        Future.successful(User(1,"A", "b@c.d"))
     }
 
     def userUnlock(userId: String)  = {

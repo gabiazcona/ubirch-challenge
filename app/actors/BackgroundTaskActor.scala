@@ -10,7 +10,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.Future
 
-class BackgroundTaskAActor @Inject()(database: Database) extends Actor {
+class BackgroundTaskAActor @Inject()(database: Database)(implicit ec: ExecutionContext) extends Actor {
 
   override def receive: Receive = {
     case msg: String => {
@@ -19,16 +19,14 @@ class BackgroundTaskAActor @Inject()(database: Database) extends Actor {
     }
   }
   
-  def process(users: List[String]): Unit = {
+  def process(users: List[String]): Future[Unit] = {
     Console.println("backgroundtaskA process")
-    users.map{userId => 
-      database.dataModelM.getUserLock(userId)
-      processUser(userId)
-      database.dataModelM.userUnlock(userId)
-    }
+    Future.traverse(users){ userId =>
+      database.dataModelM.getUserLock(userId).map(processUser).map(_ => database.dataModelM.userUnlock(userId))
+    }.map(_ => ())
   }
 
-  def processUser(user: String) = {
+  def processUser(user: User) = {
     Console.println("processing user...")
   }
 }
