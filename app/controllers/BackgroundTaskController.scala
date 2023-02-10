@@ -39,7 +39,6 @@ class BackgroundTaskController @Inject()(
     )
 
   def runAsync(): Action[AnyContent] = Action {
-    Console.println(s"Database: ${database.someData}")
     Ok
   }
 }

@@ -14,7 +14,7 @@ class BackgroundTaskAActor @Inject()(database: Database)(implicit ec: ExecutionC
 
   override def receive: Receive = {
     case msg: String => {
-        Console.println(s"BackgroundTaskActor: Message ${msg} received and database: ${database.someData}")
+        Console.println(s"BackgroundTaskActor: Message ${msg} received")
         process(List(msg))
     }
   }
@@ -34,7 +34,7 @@ class BackgroundTaskAActor @Inject()(database: Database)(implicit ec: ExecutionC
 class BackgroundTaskBActor @Inject()(database: Database) extends Actor {
   override def receive: Receive = {
     case msg: String => {
-        Console.println(s"BackgroundTaskBActor: Message ${msg} received and database: ${database.someData}")
+        Console.println(s"BackgroundTaskBActor: Message ${msg} received")
         msg match {
             case "BackgroundTaskB" => process(List(msg))
         }
@@ -48,7 +48,7 @@ class BackgroundTaskBActor @Inject()(database: Database) extends Actor {
 class BackgroundTaskCActor @Inject()(database: Database) extends Actor {
   override def receive: Receive = {
     case msg: String => {
-        Console.println(s"BackgroundTaskCActor: Message ${msg} received and database: ${database.someData}")
+        Console.println(s"BackgroundTaskCActor: Message ${msg} received")
         msg match {
             case "BackgroundTaskC" => process(List(msg))
         }
